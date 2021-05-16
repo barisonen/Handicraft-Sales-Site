@@ -3,6 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import "bulma/css/bulma.css";
+
+
+const LoadingIndicator = props => {
+    return (
+        <h1>Hey some async call in progress ! </h1>
+    );
+}
+
 
 ReactDOM.render(
   <React.StrictMode>
