@@ -79,19 +79,21 @@ class AddProduct extends Component {
                     price,
                     shortDesc,
                     description,
+                    converted,
                     stock: stock || 0
                 },
                 () => this.setState(initState)
             );
 
 
-            await axios.post('http://127.0.0.1:8080/products/add/',
+            await axios.post('http://127.0.0.1:8080/products/add',
                 {
                     name: name,
                     price: price,
                     shortDesc: shortDesc,
                     description: description,
-                    stock: stock || 0
+                    stock: stock || 0,
+                    converted: converted
                 },
             )
 
