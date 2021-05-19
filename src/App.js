@@ -52,6 +52,8 @@ export default class App extends Component {
                     { ...p },
                 )
 
+                axios.patch('http://127.0.0.1:8080/products/setAmount/'+ p.id + '/' + p.stock);
+
             }
             return p;
         });
