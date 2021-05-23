@@ -4,9 +4,11 @@ import React, { Component } from "react";
 import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
 
 import AddProduct from './components/AddProduct';
+import AddSeller from './components/AddSeller'
 import Cart from './components/Cart';
 import Login from './components/Login';
 import ProductList from './components/ProductList';
+import SellerList from './components/SellerList'
 import logo from './pictures/logo.png';
 import Context from "./Context";
 
@@ -16,7 +18,8 @@ export default class App extends Component {
     this.state = {
       user: null,
       cart: {},
-      products: []
+      products: [],
+        sellers: []
     };
     this.routerRef = React.createRef();
   }
@@ -27,12 +30,11 @@ export default class App extends Component {
 
         //const products = await axios.get('http://localhost:3001/products');
         const products = await axios.get('http://127.0.0.1:8080/products/');
-        console.log(products.data);
-        console.log((await axios.get('http://localhost:3001/products')).data);
+        const sellers = await axios.get('http://127.0.0.1:8080/sellers');
         user = user ? JSON.parse(user) : null;
         cart = cart? JSON.parse(cart) : {};
 
-        this.setState({ user,  products: products.data, cart });
+        this.setState({ user,  products: products.data, sellers: sellers.data, cart });
     }
 
     checkout = () => {
@@ -125,6 +127,12 @@ export default class App extends Component {
         this.setState({ products }, () => callback && callback());
     };
 
+    addSeller = (seller, callback) => {
+        let sellers = this.state.sellers.slice();
+        sellers.push(seller);
+        this.setState({ sellers }, () => callback && callback());
+    }
+
   render() {
     return (
         <Context.Provider
@@ -134,6 +142,7 @@ export default class App extends Component {
               addToCart: this.addToCart,
               login: this.login,
               addProduct: this.addProduct,
+                addSeller: this.addSeller,
               clearCart: this.clearCart,
               checkout: this.checkout
             }}
@@ -176,6 +185,9 @@ export default class App extends Component {
                   <Link to="/urunler" className="navbar-item">
                     Ürünler
                   </Link>
+                    <Link to="/saticilar" className="navbar-item">
+                        Satıcılar
+                    </Link>
                   <Link to="/sepet" className="navbar-item">
                     Sepetim
                     <span
@@ -199,6 +211,11 @@ export default class App extends Component {
                             (Admin) Ürün ekle
                         </Link>
                     )}
+                    {this.state.user && this.state.user.accessLevel < 1 && (
+                        <Link to="/satici-ekle" className="navbar-item">
+                            (Admin) Satıcı ekle
+                        </Link>
+                    )}
                 </div>
               </nav>
               <Switch>
@@ -207,6 +224,8 @@ export default class App extends Component {
                 <Route exact path="/sepet" component={Cart} />
                 <Route exact path="/urun-ekle" component={AddProduct} />
                 <Route exact path="/urunler" component={ProductList} />
+                <Route exact path="/satici-ekle" component={AddSeller} />
+                <Route exact path="/saticilar" component={SellerList} />
               </Switch>
             </div>
           </Router>
