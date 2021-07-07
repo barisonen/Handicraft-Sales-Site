@@ -86,7 +86,7 @@ class AddProduct extends Component {
             );
 
 
-            await axios.post('https://handicraftsales-frontend.herokuapp.com/products/add',
+            await axios.post('https://handicraftsales.herokuapp.com/products/add',
                 {
                     name: name,
                     price: price,

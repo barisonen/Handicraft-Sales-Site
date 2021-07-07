@@ -84,7 +84,7 @@ class AddSeller extends Component {
             );
 
 
-            await axios.post('https://handicraftsales-frontend.herokuapp.com//sellers/add',
+            await axios.post('https://handicraftsales.herokuapp.com/sellers/add',
                 {
                     name: name,
                     email: email,

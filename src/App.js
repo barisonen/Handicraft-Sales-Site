@@ -93,7 +93,7 @@ export default class App extends Component {
 
     login = async (email, password) => {
         const res = await axios.post(
-            'https://handicraftsales-frontend.herokuapp.com/login',
+            'https://handicraftsales.herokuapp.com/login',
             { email, password },
         ).catch((res) => {
             return { status: 401, message: 'Unauthorized' }
