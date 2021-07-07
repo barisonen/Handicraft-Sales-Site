@@ -38,21 +38,12 @@ export default class App extends Component {
     }
 
     checkout = () => {
-        if (!this.state.user) {
-            this.routerRef.current.history.push("/login");
-            return;
-        }
 
         const cart = this.state.cart;
 
         const products = this.state.products.map(p => {
             if (cart[p.name]) {
                 p.stock = p.stock - cart[p.name].amount;
-
-                axios.put(
-                    `https://handicraftsales.herokuapp.com/products/${p.id}`,
-                    { ...p },
-                )
 
                 axios.patch('https://handicraftsales.herokuapp.com/products/setAmount/'+ p.id + '/' + p.stock);
 
@@ -93,22 +84,19 @@ export default class App extends Component {
 
     login = async (email, password) => {
         const res = await axios.post(
-            'https://handicraftsales.herokuapp.com/login',
+            'http://localhost:8080/login',
             { email, password },
         ).catch((res) => {
             return { status: 401, message: 'Unauthorized' }
         })
 
         if(res.status === 200) {
-            const { email } = jwt_decode(res.data.accessToken)
+
             const user = {
-                email,
-                token: res.data.accessToken,
-                accessLevel: email === 'admin@example.com' ? 0 : 1
+                email
             }
 
             this.setState({ user });
-            localStorage.setItem("user", JSON.stringify(user));
             return true;
         } else {
             return false;
@@ -197,25 +185,15 @@ export default class App extends Component {
                     { Object.keys(this.state.cart).length }
                   </span>
                   </Link>
-                  {!this.state.user ? (
-                      <Link to="/giris" className="navbar-item">
-                        Giriş
-                      </Link>
-                  ) : (
-                      <Link to="/" onClick={this.logout} className="navbar-item">
-                        Çıkış
-                      </Link>
-                  )}
-                    {this.state.user && this.state.user.accessLevel < 1 && (
-                        <Link to="/urun-ekle" className="navbar-item">
-                            (Admin) Ürün ekle
-                        </Link>
-                    )}
-                    {this.state.user && this.state.user.accessLevel < 1 && (
-                        <Link to="/satici-ekle" className="navbar-item">
-                            (Admin) Satıcı ekle
-                        </Link>
-                    )}
+
+                    <Link to="/urun-ekle" className="navbar-item">
+                        Ürün ekle
+                    </Link>
+
+                    <Link to="/satici-ekle" className="navbar-item">
+                        Satıcı ekle
+                    </Link>
+
                 </div>
               </nav>
               <Switch>

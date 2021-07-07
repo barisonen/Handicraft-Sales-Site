@@ -111,9 +111,7 @@ class AddSeller extends Component {
         const { name, email, rate, comments } = this.state;
         const { user } = this.props.context;
 
-        return !(user && user.accessLevel < 1) ? (
-            <Redirect to="/" />
-        ) : (
+        return (
             <>
                 <div className="hero is-primary ">
                     <div className="hero-body container">

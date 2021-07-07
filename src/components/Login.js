@@ -32,11 +32,6 @@ class Login extends Component {
     render() {
         return !this.props.context.user ? (
             <>
-                <div className="hero is-primary ">
-                    <div className="hero-body container">
-                        <h4 className="title">Giriş</h4>
-                    </div>
-                </div>
                 <br />
                 <br />
                 <form onSubmit={this.login}>
@@ -63,13 +58,6 @@ class Login extends Component {
                             {this.state.error && (
                                 <div className="has-text-danger">{this.state.error}</div>
                             )}
-                            <div className="field is-clearfix">
-                                <button
-                                    className="button is-primary is-outlined is-pulled-right"
-                                >
-                                    Giriş
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </form>
