@@ -29,8 +29,8 @@ export default class App extends Component {
         let cart = localStorage.getItem("cart");
 
         //const products = await axios.get('http://localhost:3001/products');
-        const products = await axios.get('http://127.0.0.1:8080/products/');
-        const sellers = await axios.get('http://127.0.0.1:8080/sellers');
+        const products = await axios.get('https://handicraftsales.herokuapp.com/products');
+        const sellers = await axios.get('https://handicraftsales.herokuapp.com/sellers');
         user = user ? JSON.parse(user) : null;
         cart = cart? JSON.parse(cart) : {};
 
@@ -50,11 +50,11 @@ export default class App extends Component {
                 p.stock = p.stock - cart[p.name].amount;
 
                 axios.put(
-                    `http://localhost:3001/products/${p.id}`,
+                    `https://handicraftsales.herokuapp.com/products/${p.id}`,
                     { ...p },
                 )
 
-                axios.patch('http://127.0.0.1:8080/products/setAmount/'+ p.id + '/' + p.stock);
+                axios.patch('https://handicraftsales.herokuapp.com/products/setAmount/'+ p.id + '/' + p.stock);
 
             }
             return p;
@@ -93,7 +93,7 @@ export default class App extends Component {
 
     login = async (email, password) => {
         const res = await axios.post(
-            'http://localhost:3001/login',
+            'https://handicraftsales-frontend.herokuapp.com/giris',
             { email, password },
         ).catch((res) => {
             return { status: 401, message: 'Unauthorized' }
